@@ -14,10 +14,9 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
-<<<<<<< HEAD
+
 import org.springframework.context.ConfigurableApplicationContext;
-=======
->>>>>>> 1536c34840cc9d744b3e02696275c07f18f18d09
+
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
@@ -28,8 +27,9 @@ import java.util.*;
  */
 //ctrl+h 查看此类的子类和 接口的实现类
 public class ControllerServiceTest {
-    Logger log= LogManager.getLogger(ControllerServiceTest.class);
-//    @Autowired
+    Logger log = LogManager.getLogger(ControllerServiceTest.class);
+
+    //    @Autowired
 //    @Qualifier("service")
 //    private ControllerService service;
 //    public void setControllerService( ControllerService service){
@@ -38,16 +38,17 @@ public class ControllerServiceTest {
 //    }
     @Ignore
     @Test
-    public void test(){
+    public void test() {
 
-        ApplicationContext ctx=new ClassPathXmlApplicationContext(new String[]{"spring-StaticFactory.xml"});
+        ApplicationContext ctx = new ClassPathXmlApplicationContext(new String[]{"spring-StaticFactory.xml"});
         Assert.assertNotNull(ctx.getBean("service"));
         //System.out.println(service==null);
     }
+
     @Ignore
     @Test
-    public void  getFactoryDao(){
-        ApplicationContext ctx=new ClassPathXmlApplicationContext(new String[]{"spring-FactoryImpl.xml"});
+    public void getFactoryDao() {
+        ApplicationContext ctx = new ClassPathXmlApplicationContext(new String[]{"spring-FactoryImpl.xml"});
         Assert.assertNotNull(ctx.getBean(FactoryDao.class));
     }
 
@@ -55,30 +56,31 @@ public class ControllerServiceTest {
     /**
      * 这个代码运行不起来 包括
      * ConfigurableBeanFactory factory=new DefaultListableBeanFactory();
-     //  factory.setParentBeanFactory(ctx); 添加父类容器 不知道如何添加子类容器
+     * //  factory.setParentBeanFactory(ctx); 添加父类容器 不知道如何添加子类容器
      */
     @Ignore
     @Test
-    public void getStudentDao(){
-       ApplicationContext ctx=new ClassPathXmlApplicationContext(new String[]{"spring-test-parent.xml"});
+    public void getStudentDao1() {
+        ApplicationContext ctx = new ClassPathXmlApplicationContext(new String[]{"spring-test-parent.xml"});
 //        ConfigurableBeanFactory factory=new DefaultListableBeanFactory();
 //        factory.setParentBeanFactory(ctx);
-        ConfigurableApplicationContext context=new ClassPathXmlApplicationContext("spring-test.xml");
+        ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("spring-test.xml");
 //        //ApplicationContext parent = context.getParent();
-       context.setParent(ctx);
+        context.setParent(ctx);
 //
         log.info(context.getParent());
+    }
 
-      //factory.setParentBeanFactory(ctx);
+        //factory.setParentBeanFactory(ctx);
 //        ConfigurableApplicationContext ctx1=new ClassPathXmlApplicationContext(new String[]{"spring-test.xml"});
 //        ctx1.setParent(ctx);
 //        ctx1.refresh();
-       // ctx.refresh();
-=======
-    //@Ignore
-    @Test
-    public void getStudentDao(){
-//        ApplicationContext ctx=new ClassPathXmlApplicationContext(new String[]{"spring-test-parent.xml"});
+        // ctx.refresh();
+
+        @Ignore
+        @Test
+        public void getStudentDao(){
+            ApplicationContext ctx=new ClassPathXmlApplicationContext(new String[]{"spring-test-parent.xml"});
 ////        ConfigurableBeanFactory factory=new DefaultListableBeanFactory();
 ////        factory.setParentBeanFactory(ctx);
 //        ConfigurableApplicationContext context=new ClassPathXmlApplicationContext("spring-test.xml");
@@ -92,93 +94,91 @@ public class ControllerServiceTest {
 //        //ctx1.setParent();
 //       // ctx1.refresh();
 //        ctx.refresh();
->>>>>>> 1536c34840cc9d744b3e02696275c07f18f18d09
+
 //        System.out.println(ctx1.getBeanFactory().getBean(ParentTree.class));
 ////
 //        factory.s
 //
 //        System.out.println(factory.getParentBeanFactory().getBean(ParentTree.class));
 
-        //ctx1.refresh();
+            //ctx1.refresh();
 //        BeanFactory parent = new XmlBeanFactory(new ClassPathResource("spring-test-parent.xml"));
 //        BeanFactory bean=new XmlBeanFactory(new ClassPathResource("spring-test.xml"),parent);
 //        ChildTree h1= (ChildTree) bean.getBean("helloWorld");
-        ApplicationContext ctx=new ClassPathXmlApplicationContext("classpath:spring-test-parent.xml");
-        ApplicationContext ctx1=new ClassPathXmlApplicationContext(new String[]{"classpath:spring-test.xml"},ctx);
-        Assert.assertNotNull(ctx1.getBean(ChildTree.class));
-        // Assert.assertNotNull(ctx.getBean(StudentDao.class));
-        //Assert.assertNotNull(ctx.getBean(ChildTree.class));
-
-    }
-    @Ignore
-    @Test
-    public void getStudentBean(){
-        ApplicationContext ctx=new ClassPathXmlApplicationContext(new String[]{"spring-constructor.xml"});
-        Assert.assertNotNull(ctx.getBean(Student1.class));
-        Assert.assertNotNull(ctx.getBean(Student2.class));
-        Assert.assertNotNull(ctx.getBean(StudentBean.class));
-        log.info(ctx.getBean(Student1.class).toString());
-        Student1 student1=ctx.getBean(Student1.class);
-        Assert.assertNotNull(student1.getStudentId());
-        log.info(student1.getAge());
-        Student2 student2=ctx.getBean(Student2.class);
-        log.info(student2.getName());
-
-    }
-    @Ignore
-    @Test
-    public void getSetInjection(){
-        ApplicationContext ctx=new ClassPathXmlApplicationContext(new String[]{"spring-setInjection.xml"});
-        Assert.assertNotNull(ctx.getBean("exampleBean"));
-        Assert.assertNotNull(ctx.getBean("parentBean"));
-        Assert.assertNotNull(ctx.getBean("exampleBean1"));
-        Assert.assertNotNull(ctx.getBean(ParentBean.class));
-        //Assert.assertNotNull(ctx.getBean(ExampleBean.class));
-        Assert.assertNotNull(ctx.getBean("accountService1"));
-    }
-
-    /**
-     * @author Joney
-     * Spring XML文件声明内部bean 直接在IOC容器中获取的话 值为null
-     * 必须同过内部bean所在的bean 获取之后 在获取内部bean的属性
-     *
-     */
-    @Test
-    public  void  getAnnotation(){
-        ApplicationContext ctx=new ClassPathXmlApplicationContext(new String[]{"spring-collection.xml"});
-        Assert.assertNotNull(ctx.getBean(User.class));
-        ApplicationContext ctx1=new FileSystemXmlApplicationContext(new String[]{"classpath:spring-StaticFactory.xml"});
-        Assert.assertNotNull(ctx1);
-        ListCollection collection=ctx.getBean(ListCollection.class);
-
-        List<User>users=collection.getList();
-        for (User user:users) {
-            log.info(user.getUserName()+" : "+user.getPassword());
-        }
-        Properties pros=collection.getProperties();
-        Set keyValue = pros.keySet();
-        for (Iterator it = keyValue.iterator(); it.hasNext();)
-        {
-            String key = (String) it.next();
-            log.info(key+":"+pros.getProperty(key));
+          //  ApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:spring-test-parent.xml");
+           // ApplicationContext ctx1 = new ClassPathXmlApplicationContext(new String[]{"classpath:spring-test.xml"}, ctx);
+           // Assert.assertNotNull(ctx1.getBean(ChildTree.class));
+            // Assert.assertNotNull(ctx.getBean(StudentDao.class));
+            //Assert.assertNotNull(ctx.getBean(ChildTree.class));
 
         }
-        Set<?> set=collection.getSet();
+        @Test
+        public void getStudentBean(){
+            ApplicationContext ctx = new ClassPathXmlApplicationContext(new String[]{"spring-constructor.xml"});
+            Assert.assertNotNull(ctx.getBean(Student1.class));
+            Assert.assertNotNull(ctx.getBean(Student2.class));
+            Assert.assertNotNull(ctx.getBean(StudentBean.class));
+            log.info(ctx.getBean(Student1.class).toString());
+            Student1 student1 = ctx.getBean(Student1.class);
+            Assert.assertNotNull(student1.getStudentId());
+            log.info(student1.getAge());
+            Student2 student2 = ctx.getBean(Student2.class);
+            log.info(student2.getName());
 
-        for(Iterator iterator=set.iterator();iterator.hasNext();){
+        }
+
+        @Test
+        public void getSetInjection(){
+            ApplicationContext ctx = new ClassPathXmlApplicationContext(new String[]{"spring-setInjection.xml"});
+            Assert.assertNotNull(ctx.getBean("exampleBean"));
+            Assert.assertNotNull(ctx.getBean("parentBean"));
+            Assert.assertNotNull(ctx.getBean("exampleBean1"));
+            Assert.assertNotNull(ctx.getBean(ParentBean.class));
+            //Assert.assertNotNull(ctx.getBean(ExampleBean.class));
+            Assert.assertNotNull(ctx.getBean("accountService1"));
+        }
+
+        /**
+         * @author Joney
+         * Spring XML文件声明内部bean 直接在IOC容器中获取的话 值为null
+         * 必须同过内部bean所在的bean 获取之后 在获取内部bean的属性
+         *
+         */
+        @Test
+        public void getAnnotation(){
+            ApplicationContext ctx = new ClassPathXmlApplicationContext(new String[]{"spring-collection.xml"});
+            Assert.assertNotNull(ctx.getBean(User.class));
+            ApplicationContext ctx1 = new FileSystemXmlApplicationContext(new String[]{"classpath:spring-StaticFactory.xml"});
+            Assert.assertNotNull(ctx1);
+            ListCollection collection = ctx.getBean(ListCollection.class);
+
+            List<User> users = collection.getList();
+            for (User user : users) {
+                log.info(user.getUserName() + " : " + user.getPassword());
+            }
+            Properties pros = collection.getProperties();
+            Set keyValue = pros.keySet();
+            for (Iterator it = keyValue.iterator(); it.hasNext(); ) {
+                String key = (String) it.next();
+                log.info(key + ":" + pros.getProperty(key));
+
+            }
+            Set<?> set = collection.getSet();
+
+            for (Iterator iterator = set.iterator(); iterator.hasNext(); ) {
                 log.info(iterator.next());
-        }
-        Map<?,?>map=collection.getMap();
-        for (Map.Entry<?,?> set1:map.entrySet()){
-            log.info(set1.getKey());
+            }
+            Map<?, ?> map = collection.getMap();
+            for (Map.Entry<?, ?> set1 : map.entrySet()) {
+                log.info(set1.getKey());
+
+            }
 
         }
 
     }
 
-}
-<<<<<<< HEAD
 
 
-=======
->>>>>>> 1536c34840cc9d744b3e02696275c07f18f18d09
+
+
